@@ -1,20 +1,78 @@
-.root{
+.app-root{
+  position:relative;
+}
+.device{
   display:flex;
   flex-direction:row;
   flex-wrap:wrap;
 }
-.box{
+
+.box-root, #addBox{
   width:150px;
   height:150px;
   border-radius:5px;
   background-color:white;
   border:5px black solid;
   margin:10px;
+  display:inline-block;
+  text-align:center;
+  box-sizing: border-box;
+}
+button{
+  cursor:grab;
+}
+button:hover{
+  background-color:gray;
+}
+.header {
+  display:flex;
+  flex-direction:row;
+}
+#titleLabel {
+  margin:10px;
+  text-align:center;
+}
+#title {
+  border-radius:1px;
+  border:1px black solid;
+  font-variant: small-caps;
+  height:30px;
+  width:300px;
+  margin:10px;
+  text-align:center;
+}
+.saveButton{
+  border:3px black solid;
+  width:100px;
+  height:30px;
+  font-family:"Times New Roman", Times, serif;
+  font-size:15px;
+  margin:10px;
+}
+#sentence {
+  width:100%;
+  height:30px;
+  font-family:"Times New Roman", Times, serif;
+  color:black;
+  font-size:30px;
 }
 .text{
-  font-family: "Times New ROman", Times, serif;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 25px;
 }
 .image{
   border: 3px black solid;
   margin-top:5px;
+  height:100px;
+}
+#inputText {
+  width:80%;
+  margin:10%;
+}
+#upload, #submit {
+  width:80%;
+  margin-top:10%;
+  height:15%;
+  font-variant:small-caps;
+  font-family:"Times New Roman", Times, serif;
 }

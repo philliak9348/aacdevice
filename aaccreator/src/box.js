@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 
-export function box(props) {
-    const box = props.box;
+import {sentenceValue, appendVal} from './App';
+
+export function Box(props) {
+   const box = props.box;
     //give a box
     return (
-    <div className = "box" style={{
-        backgroundColor: Color.white
+    <button className = "box-root" onClick={() => {
+        appendVal("text");
     }}>
-    <span className="text">{box.text}</span>
-    <span className="image">{box.image}</span>
-    </div>
+        <div className = 'boxText'> {box.text}}</div>
+        <div className = 'boxImage'><img alt="image" src={box.image}></img></div>
+    </button>
     );
 }
