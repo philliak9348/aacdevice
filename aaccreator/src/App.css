@@ -4,6 +4,7 @@ body{
 }
 .app-root{
   position:relative;
+  overflow:hidden;
 }
 .device{
   display:flex;
@@ -11,7 +12,7 @@ body{
   flex-wrap:wrap;
 }
 
-#box-root, #addBox{
+#box-root, #addBox, #button-root{
   width:150px;
   height:150px;
   border-radius:5px;
@@ -84,11 +85,12 @@ button:hover{
   background-color:gray;
   font-variant:small-caps;
 }
-.text{
+.text, .boxText{
   font-family: "Times New Roman", Times, serif;
   font-size: 25px;
+  font-variant:small-caps;
 }
-.image{
+.imagem .boxImage{
   border: 3px black solid;
   margin-top:5px;
   height:100px;

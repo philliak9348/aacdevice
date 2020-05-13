@@ -4,51 +4,91 @@ import './App.css';
 import { Box } from './Box.js';
 import { Device } from './Device.js';
 import { Popup } from './Popup.js';
-
-const users = [
+var users = [
   { user: "User", Pass: "pass" }
 ]
-const devices = [
-  { name: "AacDevice1", id: 1, boxes: [{ id: 1, text: "Cat", image: "C:/Users/phill/IdeaProjects/aacdevice/aaccreator/cat.jpg" },{ id: 1, text: "Dog", image: "C:/Users/phill/IdeaProjects/aacdevice/aaccreator/cat.jpg" },{ text: "Horse", image: "C:/Users/phill/IdeaProjects/aacdevice/aaccreator/cat.jpg" }]}
+var devices = [
+  { name: "AacDevice1", id: 1},
+  { name: "AacDevice2", id: 2}
 ]
-const wWords = [
-  { id: 0, text: "who"},
-  {id : 0, text: "what"},
-  {id : 0, text: "where"}
+var wWords = [
+  { id: 0, text: "who", image: "whatImage"},
+  {id : 0, text: "what", image: "whatIMage"},
+  {id : 0, text: "where", image: "whereImage"}, 
+  {id: 0, text:"is", image: "isImage"},
+  {id: 0, text:"that", image: "thatImage"}
 ]
-const boxes = [
-  {id:1, text: "Cat", image: "", isDeleted: true}
-];
+var allBoxes = [
+  {id:1, text:"cat", image: "catImage"},
+  {id:1, text:"Dog", image:"dogImage"},
+  {id:2, text:"Woman", image: "womanImage"},
+  {id:2, text:"Child", image: "childImage"},
+  { id: 0, text: "who", image: "whatImage"},
+{id : 0, text: "what", image: "whatIMage"},
+{id : 0, text: "where", image: "whereImage"}, 
+{id: 0, text:"is", image: "isImage"},
+{id: 0, text:"that", image: "thatImage"}
+]
+var boxes = [
+]
 
-var sentenceContainer = {
-  sentence: "This"
-};
+var sentenceVal = "";
 function appendVal(val) {
-  sentenceContainer.sentence = sentenceContainer.sentence + val;
+  var temp = "";
+  temp = sentenceVal.concat("", val+" ");
+  sentenceVal = temp;
+  const sentenceValue = document.getElementById('sentence');
+  sentenceValue.value = sentenceVal;
 }
-
+function clear() {
+  var temp = sentenceVal.substring(sentenceVal.length);
+  sentenceVal = temp;
+  const sentenceValue = document.getElementById('sentence');
+  sentenceValue.value = sentenceVal;
+}
+function newDevice(deviceID) {
+  while(boxes.length>0) {
+    boxes.pop();
+  }
+  var i = 0;
+  allBoxes.forEach(function(abox) {
+    if (abox.id === deviceID) {
+      abox[i] = (abox);
+      i = i+1;
+    }
+  });
+}
+var currentBoxes = [];
+function refreshBoxes() {
+    while(currentBoxes.length>0) {
+      currentBoxes.pop();
+    }
+    var i = 0;
+    boxes.forEach(function (box) {
+    var thisBox = <Box key = {box.id} text={box.text} image = {box.image}></Box>
+    currentBoxes[i] = (thisBox);
+    i++;
+});}
 function App() {
-  const [ids, texts, images] = useState(boxes);
+  
   return (
     <div className="app-root" >
       <div className="header">
       <span id='titleLabel' for="title">Name for AAC Device: </span>
       <input id='title' type='text'></input>
       <button class='saveButton' onClick ={() => {
-        const inputTitle = document.getElementById('title');
+        var inputTitle = document.getElementById('title').value;
         var bool = 0;
-        for (const device in devices) {
-          if (inputTitle.getValue == device.name) {
+        devices.forEach(function (device){
+          if (inputTitle === device.name) {
             //update table mysql
             bool = 1;
           }
-        }
-        if (bool ==1) {
+          if (bool ===0) {
           //push to mysql table
-          devices.push(1,inputTitle.getValue,[]);
+          devices.push({name: inputTitle, id: 2});
         }
-
-      }}>Save</button>
+        });}}>Save</button>
       <button type = "button" class='search' onClick={() => {
         const popup = document.getElementById('popup');
         popup.classList.toggle("hidden");
@@ -61,9 +101,9 @@ function App() {
       }}>Add Box</button>
       </div>
       <div id="sentenceBlock">
-      <input type="text" id="sentence" value={sentenceContainer.sentence}></input>
+      <input type="text" id="sentence" placeholder = "Text will appear here..."></input>
       <button id="clear" onClick={() => {
-        sentenceContainer.sentence = "";
+        clear();
       }}>Clear</button>
       </div>
       <div className ="device">
@@ -73,26 +113,17 @@ function App() {
             //upload image
           }}>Upload Image</button>
           <button id="submit" onClick={() => {
+            var bool = 0;
             const input_text = document.getElementById("inputText").value;
             const input_image = document.getElementById("upload").value;
-            for (const box in boxes) {
-              var bool = 0;
-              if (box.text == input_text) {
-                bool = 1;
-              }
-              if (bool ==0) {
-                boxes.push([input_text, input_image]);
-                for(const device in devices) {
-                  if (device.id == box.id) {
-                    device.boxes.push(box.id, box.text, box.image);
-                  }
-              }
+            if (bool === 0) {
+              boxes[boxes.length+1] = ({id: 1, text: input_text, image: input_image});
+              refreshBoxes();
             }
-          }
-    }}>Add Box</button>
+          }}>Add Box</button>
     </div><br></br>
-        {boxes.map(box => <Box key={box.text}
-        box={box} />)}
+    {refreshBoxes()}
+    {currentBoxes}
     </div>
     <div class="hidden" id="popup" >
       <div>Click on an AAC Device to open.</div>
@@ -108,4 +139,4 @@ function App() {
 }
 
 export default App;
-export {appendVal};
+export {sentenceVal, appendVal, allBoxes, boxes, refreshBoxes, newDevice};
