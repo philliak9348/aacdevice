@@ -58,7 +58,7 @@ button:hover{
   margin:10px;
   text-align:center;
 }
-.saveButton, .search, .add{
+.headerButton{
   border:3px black solid;
   width:100px;
   height:30px;
@@ -108,14 +108,15 @@ button:hover{
 }
 #popup {
   position:absolute;
-  right:50%;
-  top:50%;
+  top:20px;
+  right:55%;
   border:black solid 5px;
   border-radius:5px;
   background-color:#03396c;
   color:white;
   padding:20px;
   height:auto;
+
 }
 .exit{
   position:absolute;
