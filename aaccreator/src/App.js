@@ -52,6 +52,7 @@ const currentBoxes = [];
   const [newBox, updateBoxes]  = useState([{id:2, text:"newBox", image:""}]);
   const [devices,updateDevs] = useState([{name:"AacDevice1", id:2}]);
   const[newVisual, updateVisual] = useState(wWords);
+  const[newUser, updateUsers] = useState([]);
   return (
     <div className="app-root" >
       <div className="header">
@@ -97,6 +98,23 @@ const currentBoxes = [];
         updateVisual(newVisual => newVisual.filter(newVisual => newVisual.id === i));
 
       }}>New Device</button>
+      <button type = "button" id="login" class="headerButton" onClick={() => {
+        const newDiv = document.createElement('div');
+        const newForm = document.createElement('form');
+        const userLbl = document.createElement('label');
+        const userInput = document.createElement('input');
+        const passLbl = document.createElement('label');
+        const passInput = document.createElement('input');
+        const submit = document.createElement('button');
+        newDiv.appendChild(newForm);
+        newForm.appendChild(userLbl, userInput, passLbl, passInput, submit);
+        userLbl.innerText = "Username: ";
+        passLbl.innerText = "Password: ";
+        submit.addEventListener('click', ()=> {
+          const ui =  
+          updateUsers(newUser => newUser{id:0, isLoggedIn:true, username:userInput.value, password:passInput.value}]);
+        });
+      }}>Log In</button>
       </div>
       <div id="sentenceBlock">
       <input type="text" id="sentence" placeholder = "Text will appear here..."></input>
@@ -121,6 +139,7 @@ const currentBoxes = [];
               });
             if (bool === 0) {
               const string = input_text;
+              console.log(input_text);
               updateBoxes([...newBox, {id:currid, text: input_text, image:input_image}]);
               var thisBox = <Box key = {currid} text ={input_text} image = {input_image}></Box>
               updateVisual([...newVisual, {id:currid, text:input_text, image:input_image}]);
