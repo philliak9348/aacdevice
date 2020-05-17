@@ -1,12 +1,13 @@
-const host = 'https://aaccreator.duckdns.org';
+const host = 'https://aac-api.aaccreator.duckdns.org:8442';
 export const Action = Object.freeze({
-    LoadBoxes: 'loadBoxes',
+    loadBoxes: 'loadBoxes',
     completeBox: 'completeBox',
     loadDevices: 'loadDevices',
     addBoxes: 'addBoxes',
     pullBoxes: 'pullBoxes',
     addDevice: 'addDevice',
     completeDevice: 'completeDevice',
+    pullDevices: 'pullDevices',
     ToggleWaiting: "ToggleWaiting",
 });
 export function toggleWaiting() {
@@ -15,15 +16,17 @@ export function toggleWaiting() {
     };
 }
 export function loadBoxes(Boxes) {
+    console.log(Boxes);
     return{
         type:Action.loadBoxes,
         payload:Boxes,
     };
 }
-export function loadDevices(Devices) {
+export function loadDevices(devices) {
+    console.log(devices);
     return {
         type:Action.loadDevices,
-        payload:Devices,
+        payload:devices,
     };
 }
 export function completeBox(box) {
@@ -38,14 +41,22 @@ export function completeDevice(device) {
         payload:device
     }
 }
+function checkForErrors(response) {
+    console.log(response.ok);
+    if (!response.ok) {
+        throw Error(response.status + ":" + response.statusText);
+    }
+    return response;
+}
 
-export function pullBoxes(Boxes) {
+export function pullBoxes() {
     return dispatch => {
         dispatch(toggleWaiting());
         fetch(`${host}/aac/boxes`)
             .then(checkForErrors)
             .then(response=> response.json())
             .then(data => {
+                console.log(data.ok);
                 if (data.ok) {
                     dispatch(loadBoxes(data.boxes));
                 }
@@ -53,7 +64,7 @@ export function pullBoxes(Boxes) {
             .catch(e=>console.error(e));
         };
 }
-export function pullDevices(Devices) {
+export function pullDevices() {
     return dispatch => {
         dispatch(toggleWaiting());
         fetch(`${host}/aac/devs`)
@@ -67,15 +78,17 @@ export function pullDevices(Devices) {
             .catch(e=>console.error(e));
         };
 }
-export function addBoxes(id, text, image) {
-    const box = { id, text ,image };
+export function addBox(id, text, image) {
+    const box = { id, text , image};
     const options = {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(box),}
+        headers: {'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(box),
+    }
     return dispatch => {
         dispatch(toggleWaiting());
-        fetch(`${host}/aac/boxes/`, options)
+        fetch(`${host}/aac/Boxes`, options)
             .then(checkForErrors())
             .then(response => response.json())
             .then(data => {
@@ -87,7 +100,7 @@ export function addBoxes(id, text, image) {
                 }
             })
             .catch(e => console.error(e));
-        }
+        };
     }
     export function addDevice(id, name) {
         const device = {id, name};
@@ -98,7 +111,7 @@ export function addBoxes(id, text, image) {
         }
         return dispatch => {
             dispatch(toggleWaiting());
-            fetch(`${host}/aac/boxes/`, options)
+            fetch(`${host}/aac/Devs/`, options)
                 .then(checkForErrors)
                 .then(response => response.json())
                 .then(data => {
@@ -111,9 +124,3 @@ export function addBoxes(id, text, image) {
                 .catch(e => console.error(e));
             };
         }
-function checkForErrors(response) {
-    if (!response.ok) {
-        throw Error(response.status + ":" + response.statusText);
-    }
-    return response;
-}

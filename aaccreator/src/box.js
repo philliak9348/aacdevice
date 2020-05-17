@@ -8,7 +8,7 @@ export function Box(box) {
         appendVal(box.text);
     }}>
         <div className = 'boxText'> {box.text}</div>
-        <div className = 'boxImage'><div id={box.text}>{box.image}</div></div>
+        <div className = 'boxImage'><div id="boxImage">{box.image}</div></div>
     </button>
     );
 }

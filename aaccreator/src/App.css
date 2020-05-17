@@ -12,6 +12,9 @@ body{
   display:flex;
   flex-direction:row;
   flex-wrap:wrap;
+  border: 3px white solid;
+  background-color:teal;
+  margin:10px;
 }
 
 #box-root, #addBox, #button-root{
@@ -25,6 +28,13 @@ body{
   text-align:center;
   box-sizing: border-box;
   position:relative;
+}
+#boxImage{
+  border:1px black solid;
+  position:absolute;
+  bottom:3px;
+  width:90%;
+  height:auto;
 }
 .exitBox {
   position:absolute;
@@ -46,7 +56,11 @@ button:hover{
   flex-direction:row;
   flex-wrap: wrap;
   justify-content:flex-end;
+}
+#titleBlock{
   border-bottom:black solid 3px;
+  border-top:black solid 3px;
+  margin-bottom:20px
 }
 #titleLabel {
   margin:10px;
@@ -116,7 +130,6 @@ button:hover{
 #inputText {
   width:80%;
   margin:10%;
-  background-color:gray;
 }
 #submit {
   width:80%;
@@ -124,13 +137,22 @@ button:hover{
   height:15%;
   font-variant:small-caps;
   font-family:"Times New Roman", Times, serif;
+  background-color: powderblue;
+}
+#submit:hover{
+  background-color:darkgray;
 }
 #uploadButton{
-  border:gray 1px solid;
-  font-variant:small-caps;
+  width:90%;
+  margin:10%;
+  border:black solid 1px;
+  padding:2px;
+  height:10px;
+}
+#uploadButton:hover{
+  background-color:darkgray;
 }
 #upload{
-  font-variant:small-caps;
   display:none;
 }
 #popup {

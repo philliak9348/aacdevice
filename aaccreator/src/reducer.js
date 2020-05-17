@@ -6,10 +6,12 @@ const initialStart = {
     devices:[],
 };
 export function reducer(state = initialStart, action) {
+    console.log(action);
     switch (action.type) {
         case Action.LoadBoxes:
             return {
                 ...state,
+                isWaiting: false,
                 boxes: action.payload,
             };
         case Action.completeBox:
@@ -21,6 +23,7 @@ export function reducer(state = initialStart, action) {
         case Action.loadDevices:
             return {
                 ...state,
+                isWaiting: false,
                 devices: action.payload,
             };
         case Action.completeDevice:
