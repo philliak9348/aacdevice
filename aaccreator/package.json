@@ -1,6 +1,6 @@
 {
   "name": "aaccreator",
-  "homepage": "https://acccreator.duckdns.org",
+  "homepage": "https://acccreator.duckdns.org:443",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

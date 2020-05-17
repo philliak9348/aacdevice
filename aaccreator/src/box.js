@@ -9,7 +9,6 @@ export function Box(box) {
     }}>
         <div className = 'boxText'> {box.text}</div>
         <div className = 'boxImage'><div id={box.text}>{box.image}</div></div>
-        <div className = "boxID" > {box.id} </div>
     </button>
     );
 }

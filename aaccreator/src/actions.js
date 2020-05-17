@@ -1,4 +1,4 @@
-const host = 'http://142.93.245.197:3443';
+const host = 'https://aaccreator.duckdns.org';
 export const Action = Object.freeze({
     LoadBoxes: 'loadBoxes',
     completeBox: 'completeBox',

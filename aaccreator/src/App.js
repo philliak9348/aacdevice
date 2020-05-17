@@ -125,7 +125,7 @@ function App() {
               }}}>Add Box</button>
         </div>
         <br />
-        {newVisual.map((box) => <Box key={box.id} text={box.text} image={box.image} id={box.id} />)}
+        {newVisual.map((box) => <Box key={box.id} text={box.text} image={box.image} />)}
       </div>
       <div className="hidden" id="popup">
         <div>Click on an AAC Device to open.</div>
