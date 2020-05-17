@@ -1,6 +1,8 @@
 body{
   background-color:#6497b1 ;
   margin:0;
+  font-family:"Times New Roman", Times, serif;
+
 }
 .app-root{
   position:relative;
@@ -32,10 +34,9 @@ body{
   font-size:8pt;
   display:inline-block;
 }
-button{
+button, #imageLbl{
   cursor:grab;
-  font-family:"Times New Roman", Times, serif;
-
+  
 }
 button:hover{
   background-color:gray;
@@ -44,6 +45,8 @@ button:hover{
   display:flex;
   flex-direction:row;
   flex-wrap: wrap;
+  justify-content:flex-end;
+  border-bottom:black solid 3px;
 }
 #titleLabel {
   margin:10px;
@@ -58,12 +61,27 @@ button:hover{
   margin:10px;
   text-align:center;
 }
-.headerButton{
+#newDevice, #add, #search{
   border:3px black solid;
   width:100px;
   height:30px;
   font-size:15px;
   margin:10px;
+}
+.headerEnabled{
+  background-color:green;
+}
+#saveButton {
+  border:3px black solid;
+  width:auto;
+  height:30px;
+  font-size:15px;
+  margin:10px;
+}
+#titleBlock {
+  display:flex;
+  flex-direction:row;
+  justify-content:center;
 }
 #sentenceBlock {
   display:flex;
@@ -90,7 +108,7 @@ button:hover{
   font-size: 25px;
   font-variant:small-caps;
 }
-.imagem .boxImage{
+.image .boxImage{
   border: 3px black solid;
   margin-top:5px;
   height:100px;
@@ -98,13 +116,22 @@ button:hover{
 #inputText {
   width:80%;
   margin:10%;
+  background-color:gray;
 }
-#upload, #submit {
+#submit {
   width:80%;
   margin-top:10%;
   height:15%;
   font-variant:small-caps;
   font-family:"Times New Roman", Times, serif;
+}
+#uploadButton{
+  border:gray 1px solid;
+  font-variant:small-caps;
+}
+#upload{
+  font-variant:small-caps;
+  display:none;
 }
 #popup {
   position:absolute;
@@ -138,4 +165,26 @@ button:hover{
 .hidden {
   visibility:hidden;
   overflow:hidden;
+}
+.progress {
+  position:fixed;
+  right:25%;
+  top:50%;
+  width:50%;
+  height:25px;
+  border-radius:6px;
+  background-color:black;
+  border: black 3px solid;
+}
+.insideBar{
+  height:23px;
+  border-radius:6px;
+  background-color:tomato;
+  animation:fill 8s infinite linear; 
+  width:0%;
+}
+
+@keyframes fill {
+  from {width:0;}
+  to{width:99%;}
 }

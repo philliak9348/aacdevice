@@ -1,167 +1,146 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-
+import { useSelector, useDispatch } from 'react-redux';
+import { pullBoxes, addBoxes, pullDevices, addDevice, } from './actions.js';
 import { Box } from './Box.js';
-import { Device } from './Device.js';
-import { Popup } from './Popup.js';
-var currid = 0;
-const users = [
-  { user: "User", Pass: "pass" }
-]
-const wWords = [
-  {id: 0, text: "who", image: "whatImage"},
-  {id : 0, text: "what", image: "whatIMage"},
-  {id : 0, text: "where", image: "whereImage"}, 
-  {id: 0, text:"is", image: "isImage"},
-  {id: 0, text:"that", image: "thatImage"}
-]
-const allBoxes = [
-  {id:1, text:"cat", image: "catImage"},
-  {id:1, text:"Dog", image:"dogImage"},
-  {id:2, text:"Woman", image: "womanImage"},
-  {id:2, text:"Child", image: "childImage"},
-  { id: 0, text: "who", image: "whatImage"},
-  {id : 0, text: "what", image: "whatIMage"},
-  {id : 0, text: "where", image: "whereImage"}, 
-  {id: 0, text:"is", image: "isImage"},
-  {id: 0, text:"that", image: "thatImage"}
-]
-const boxes = []
 
-const device = 0;
-
-var sentenceVal = "";
+let sentenceVal = '';
 function appendVal(val) {
-  var temp = "";
-  temp = sentenceVal.concat("", val+" ");
+  let temp = '';
+  temp = sentenceVal.concat('', `${val} `);
   sentenceVal = temp;
   const sentenceValue = document.getElementById('sentence');
   sentenceValue.value = sentenceVal;
 }
 function clear() {
-  var temp = sentenceVal.substring(sentenceVal.length);
+  const temp = sentenceVal.substring(sentenceVal.length);
   sentenceVal = temp;
   const sentenceValue = document.getElementById('sentence');
   sentenceValue.value = sentenceVal;
 }
 
-const currentBoxes = [];
+let currid = 0;
 
-//FUNCTION APP
-  function App() {
-  const [newBox, updateBoxes]  = useState([{id:2, text:"newBox", image:""}]);
-  const [devices,updateDevs] = useState([{name:"AacDevice1", id:2}]);
-  const[newVisual, updateVisual] = useState(wWords);
-  const[newUser, updateUsers] = useState([]);
+// FUNCTION APP
+function App() {
+  const boxes = useSelector((state) => state.boxes);
+  const isWaiting = useSelector((state) => state.isWaiting);
+  const devices = useSelector((state) => state.devices);
+  const [newVisual, updateVisual] = useState([{ id: 0, text: 'DummyText', image: 'DummyImage' }]);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(pullBoxes());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(pullDevices());
+  }, [dispatch]);
+  const addBox = () => {
+    dispatch(addBoxes());
+  };
+  const addDevices = () => {
+    dispatch(addDevice());
+  };
+  const runPullDev = () => {
+    dispatch(pullDevices());
+  };
+  const runPullBox = () => {
+    dispatch(pullBoxes());
+  }
+
   return (
-    <div className="app-root" >
+    <div className="app-root" id="appRoot">
+      {isWaiting && <div className="progress"><div className="insideBar"></div></div>}
       <div className="header">
-      <span id='titleLabel' for="title">Name for AAC Device: </span>
-      <input id='title' type='text' placeholder='DummyTitle.. enter your smarter title here'></input>
-      <button type = "button"id='saveButton' class = 'headerButton' onClick ={() => {
-        var inputTitle = document.getElementById('title').value;
-        updateDevs([...devices, {name:inputTitle,id:currid+1}]);
-        currid = currid+1;
-        }}>Save</button>
-      <button type = "button" id='search' class="headerButton" onClick={() => {
-        const popup = document.getElementById('popup');
-        popup.classList.toggle("visible");
-        popup.classList.toggle("hidden");
-        {devices.forEach(function (device) {
-          const popup = document.createElement("button");
-          popup.innerText=device.name;
-          popup.id = device.id;
-          popup.addEventListener("click", function(){
-            currid = popup.id;
-            document.getElementById('title').value = device.name;
-            //remove elements from newVisual?
-            const i = -1;
-            updateVisual(newVisual => newVisual.filter(newVisual => newVisual.id === i));
-            newBox.forEach(function (box) {
-              if (box.id === currid) {
-                updateVisual([...newVisual, {id:box.id, text:box.text, image:box.id}]);
-              }
-            });
-          });
-          var parentPopup = document.getElementById('popup');
-          parentPopup.appendChild(popup);
-        })}
-      }}>Find Device</button>
-      <button type = "button" id="add"class="headerButton" onClick={() => {
-        const addElement = document.getElementById("addBox");
-        addElement.classList.toggle('visibile');
-        addElement.classList.toggle('hidden');
-      }}>Add Box</button>
-      <button type = "button" id="newDevice" class="headerButton" onClick={() => {
-        document.getElementById('title').value = "";
-        const i = -1;
-        updateVisual(newVisual => newVisual.filter(newVisual => newVisual.id === i));
-
-      }}>New Device</button>
-      <button type = "button" id="login" class="headerButton" onClick={() => {
-        const newDiv = document.createElement('div');
-        const newForm = document.createElement('form');
-        const userLbl = document.createElement('label');
-        const userInput = document.createElement('input');
-        const passLbl = document.createElement('label');
-        const passInput = document.createElement('input');
-        const submit = document.createElement('button');
-        newDiv.appendChild(newForm);
-        newForm.appendChild(userLbl, userInput, passLbl, passInput, submit);
-        userLbl.innerText = "Username: ";
-        passLbl.innerText = "Password: ";
-        submit.addEventListener('click', ()=> {
-          const ui =  
-          updateUsers(newUser => newUser{id:0, isLoggedIn:true, username:userInput.value, password:passInput.value}]);
-        });
-      }}>Log In</button>
-      </div>
-      <div id="sentenceBlock">
-      <input type="text" id="sentence" placeholder = "Text will appear here..."></input>
-      <button id="clear" onClick={() => {
-        clear();
-      }}>Clear</button>
-      </div>
-      <div className ="device">
-        <div id="addBox" >
-          <input id= "inputText" type="text" placeholder="Card Text"></input>
-          <button id="upload" onClick={() => {
-            //upload image
-          }}>Upload Image</button>
-          <button id="submit" onClick={() => {
-            var bool = 0;
-            const input_text = document.getElementById("inputText").value
-            const input_image = document.getElementById("upload").value;
-            boxes.forEach(function (box) {
-              if (box.text == input_text) {
-              bool = 1;
-            }
+        <button type="button" id="search" className="headerButton" onClick={() => {
+          const popup = document.getElementById('popup');
+          popup.classList.toggle('visible');
+          popup.classList.toggle('hidden');
+          devices.forEach((device) => {
+            const innerpopup = document.createElement('button');
+            innerpopup.innerText = device.name;
+            innerpopup.id = device.id;
+            innerpopup.addEventListener('click', () => {
+              currid = Number(innerpopup.id);
+              document.getElementById('title').value = device.name;
+              const i = -1;
+              updateVisual(newVisual.filter((newVisual) => newVisual.id === i));
+              boxes.forEach((box) => {
+                if (box.id === currid)
+                  updateVisual([...newVisual, { id: box.id, text: box.text, image: box.image }]);
               });
-            if (bool === 0) {
-              const string = input_text;
-              console.log(input_text);
-              updateBoxes([...newBox, {id:currid, text: input_text, image:input_image}]);
-              var thisBox = <Box key = {currid} text ={input_text} image = {input_image}></Box>
-              updateVisual([...newVisual, {id:currid, text:input_text, image:input_image}]);
-            }
+            });
+            const parentPopup = document.getElementById('popup');
+            parentPopup.appendChild(popup);
+          });}}>Find Device</button>
+        <button type="button" id="add" className="headerButton" onClick={() => {
+            const addElement = document.getElementById('addBox');
+            addElement.classList.toggle('visible');
+            addElement.classList.toggle('hidden');
           }}>Add Box</button>
-    </div><br></br>
-    {newVisual.map(box => <Box key={box.id} text = {box.text} image = {box.image}/>)}
-    </div>
-    <div class="hidden" id="popup" >
-      <div>Click on an AAC Device to open.</div>
-      <button className = 'exit' id = 'exit' onClick={() => {
+        <button type="button" id="newDevice" className="headerButton" onClick={() => {
+            document.getElementById('title').value = '';
+            const i = -1;
+            updateVisual(newVisual.filter((newVisual) => newVisual.id === i));
+          }}>New Device</button>
+      </div><br></br>
+      <div id="titleBlock">
+        <div id="titleLabel" >Name for AAC Device:</div>
+        <input id="title" type="text" placeholder="DummyTitle.. enter your smarter title here" />
+        <button type="button" id="saveButton" className="headerButton" onClick={() => {
+          const inputTitle = document.getElementById('title').value;
+          if (inputTitle.length > 0) {
+            currid += 1;
+            addDevices(currid, inputTitle);
+            runPullDev();
+          } else {
+            document.getElementById('title').placeholder = 'Enter name before you save!';
+          }}}>Save and start building!</button></div>
+      <div id="sentenceBlock">
+        <input type="text" id="sentence" placeholder="Text will appear here..."></input>
+        <button type="button" id="clear" onClick={() => {
+            clear();
+          }}>Clear</button>
+      </div>
+      <div className="device">
+        <div id="addBox" className="hidden">
+          <input id="inputText" type="text" placeholder="Card Text"></input>
+          <label id = "uploadButton" for="upload">Upload Image</label>
+          <input type="file" accept="image/jpeg ,image/png" id="upload"></input>
+          <button type="button" id="submit" onClick={() => {
+              let bool = 0;
+              const inputText = document.getElementById('inputText').value;
+              const inputImage = document.getElementById('upload').value;
+              newVisual.forEach((visual) => {
+                if (visual.text === inputText) {
+                  bool = 1;
+                  document.getElementById('inputText').value = "";
+                  document.getElementById('inputImage').value="";
+                }
+              });
+              if (bool === 0) {
+                addBox(currid, inputText, inputImage);
+                runPullBox();
+                updateVisual([...newVisual, { id: currid, text: inputText, image: inputImage }]);
+              }}}>Add Box</button>
+        </div>
+        <br />
+        {newVisual.map((box) => <Box key={box.id} text={box.text} image={box.image} id={box.id} />)}
+      </div>
+      <div className="hidden" id="popup">
+        <div>Click on an AAC Device to open.</div>
+        <button type="button" className="exit" id="exit" onClick={() => {
             const popup = document.getElementById('popup');
-            while(popup.lastChild != document.getElementById('exit')) {
+            while (popup.lastChild !== document.getElementById('exit')) {
               popup.removeChild(popup.lastChild);
             }
-            popup.classList.toggle("visible");
-            popup.classList.toggle("hidden");
-        }}>&#10006;</button>
-    </div>
+            popup.classList.toggle('visible');
+            popup.classList.toggle('hidden');
+          }}>x</button>
+      </div>
     </div>
   );
 }
 
 export default App;
-export {sentenceVal, appendVal, allBoxes, boxes};
+export { sentenceVal, appendVal };

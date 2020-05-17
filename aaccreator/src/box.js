@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {sentenceVal, appendVal} from './App';
+import {appendVal} from './App';
 export function Box(box) {
     //give a box
     return (
@@ -8,7 +8,8 @@ export function Box(box) {
         appendVal(box.text);
     }}>
         <div className = 'boxText'> {box.text}</div>
-        <div className = 'boxImage'><img alt="image" src={box.image}></img></div>
+        <div className = 'boxImage'><div id={box.text}>{box.image}</div></div>
+        <div className = "boxID" > {box.id} </div>
     </button>
     );
 }
