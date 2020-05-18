@@ -61,25 +61,23 @@ function App() {
       {isWaiting && <div className="progress"><div className="insideBar"></div></div>}
       <div className="header">
         <button type="button" id="search" className="headerButtons" onClick={() => {
-          const popup = document.getElementById('popup');
-          popup.classList.toggle('visible');
-          popup.classList.toggle('hidden');
+          const parentpopup = document.getElementById('popup');
+          parentpopup.classList.toggle('visible');
+          parentpopup.classList.toggle('hidden');
             devices.forEach((device) => {
               const innerpopup = document.createElement('button');
               innerpopup.innerText = device.name;
               innerpopup.id = device.id;
               innerpopup.addEventListener('click', () => {
-                currid = Number(innerpopup.id);
+                currid = Number(device.id);
                 document.getElementById('title').value = device.name;
                 const i = -1;
                 updateVisual(newVisual.filter((newVisual) => newVisual.id === i));
                 boxes.forEach((box) => {
-                  if (box.id === currid)
-                    updateVisual([...newVisual, { id: box.id, text: box.text, image: box.image }]);
+                  updateVisual([...newVisual, { id: currid, text: box.text, image: box.image}]);
                 });
               });
-              const parentPopup = document.getElementById('popup');
-              parentPopup.appendChild(popup);
+              parentpopup.appendChild(innerpopup);
             });
           }}>Find Device</button>
         <button type="button" id="add" className="headerButtons" onClick={() => {
@@ -131,11 +129,10 @@ function App() {
               });
               if (bool === 0) {
                 addBoxes(currid, inputText, inputImage);
-                runPullBox();
+                pullBoxes();
                 updateVisual([...newVisual, { id: currid, text: inputText, image: inputImage }]);
               }}}>Add Box</button>
-        </div>
-        <br />
+        </div><br />
         {newVisual.map((box) => <Box key={box.id} text={box.text} image={box.image} />)}
       </div>
       <div className="hidden" id="popup">

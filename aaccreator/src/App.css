@@ -37,6 +37,7 @@ body{
   box-sizing: border-box;
   position:relative;
   word-wrap:normal;
+  text-align: center;
 }
 #boxImage{
   border:1px black solid;

@@ -22,11 +22,11 @@ export function loadBoxes(Boxes) {
         payload:Boxes,
     };
 }
-export function loadDevices(Devs) {
-    console.log(Devs);
-    return {
+export function loadDevices(Devices) {
+    console.log(Devices);
+    return{
         type:Action.loadDevices,
-        payload:Devs,
+        payload:Devices,
     };
 }
 export function completeBox(box) {
@@ -35,10 +35,10 @@ export function completeBox(box) {
         payload:box,
     };
 }
-export function completeDevice(devs) {
+export function completeDevice(Devs) {
     return {
         type:Action.completeDevice,
-        payload:devs
+        payload:Devs
     }
 }
 function checkForErrors(response) {
@@ -64,6 +64,8 @@ export function pullBoxes() {
             .catch(e=>console.error(e));
         };
 }
+
+
 export function pullDevices() {
     return dispatch => {
         dispatch(toggleWaiting());
@@ -71,8 +73,9 @@ export function pullDevices() {
             .then(checkForErrors)
             .then(response=> response.json())
             .then(data => {
+                console.log(data.ok);
                 if (data.ok) {
-                    dispatch(loadDevices(data.Devs));
+                    dispatch(loadDevices(data.Devices));
                 }
             })
             .catch(e=>console.error(e));
@@ -106,11 +109,11 @@ export function addBox(id, text, image) {
         };
     }
     export function addDevice(id, name) {
-        const devs = {id, name};
+        const Devs = {id, name};
         const options = {
             method: 'POST',
             headers:{'Content-Type': 'application/json',},
-            body: JSON.stringify(devs),
+            body: JSON.stringify(Devs),
         }
         return dispatch => {
             dispatch(toggleWaiting());  
@@ -119,9 +122,9 @@ export function addBox(id, text, image) {
                 .then(response => response.json())
                 .then(data => {
                     if (data.ok) {
-                        devs.id = data.id;
-                        devs.name = data.name;
-                        dispatch(completeDevice(devs));
+                        Devs.id = data.id;
+                        Devs.name = data.name;
+                        dispatch(completeDevice(Devs));
                     }
                 })
                 .catch(e => console.error(e));
