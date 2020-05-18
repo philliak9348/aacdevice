@@ -26,7 +26,10 @@ function App() {
   const boxes = useSelector((state) => state.boxes);
   const isWaiting = useSelector((state) => state.isWaiting);
   const devices = useSelector((state) => state.devices);
-  const [newVisual, updateVisual] = useState([{ id: 0, text: 'DummyText', image: 'DummyImage' }]);
+  const [newVisual, updateVisual] = useState([
+    { id: 0, text: 'DummyText', image: 'DummyImage' },
+    {id:0, text:"Cat", image: "CatImage"}  
+  ]);
 
   const dispatch = useDispatch();
 
