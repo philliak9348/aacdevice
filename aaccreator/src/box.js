@@ -4,11 +4,11 @@ import {appendVal} from './App';
 export function Box(box) {
     //give a box
     return (
-    <button id = "box-root" class = "visible" onClick={() => {
+    <button id = "box-root" className = "visible" onClick={() => {
         appendVal(box.text);
     }}>
         <div className = 'boxText'> {box.text}</div>
-        <div className = 'boxImage'><div id="boxImage">{box.image}</div></div>
+        <div className = 'boxImage'><img id="boxImage" alt={box.text} src={box.image}></img></div>
     </button>
     );
 }

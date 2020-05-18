@@ -22,11 +22,11 @@ export function loadBoxes(Boxes) {
         payload:Boxes,
     };
 }
-export function loadDevices(devices) {
-    console.log(devices);
+export function loadDevices(Devs) {
+    console.log(Devs);
     return {
         type:Action.loadDevices,
-        payload:devices,
+        payload:Devs,
     };
 }
 export function completeBox(box) {
@@ -35,10 +35,10 @@ export function completeBox(box) {
         payload:box,
     };
 }
-export function completeDevice(device) {
+export function completeDevice(devs) {
     return {
         type:Action.completeDevice,
-        payload:device
+        payload:devs
     }
 }
 function checkForErrors(response) {
@@ -58,7 +58,7 @@ export function pullBoxes() {
             .then(data => {
                 console.log(data.ok);
                 if (data.ok) {
-                    dispatch(loadBoxes(data.boxes));
+                    dispatch(loadBoxes(data.Boxes));
                 }
             })
             .catch(e=>console.error(e));
@@ -72,13 +72,16 @@ export function pullDevices() {
             .then(response=> response.json())
             .then(data => {
                 if (data.ok) {
-                    dispatch(loadDevices(data.devices));
+                    dispatch(loadDevices(data.Devs));
                 }
             })
             .catch(e=>console.error(e));
         };
 }
 export function addBox(id, text, image) {
+    console.log(id);
+    console.log(text);
+    console.log(image);
     const box = { id, text , image};
     const options = {
         method: 'POST',
@@ -103,22 +106,22 @@ export function addBox(id, text, image) {
         };
     }
     export function addDevice(id, name) {
-        const device = {id, name};
+        const devs = {id, name};
         const options = {
             method: 'POST',
             headers:{'Content-Type': 'application/json',},
-            body: JSON.stringify(device),
+            body: JSON.stringify(devs),
         }
         return dispatch => {
-            dispatch(toggleWaiting());
+            dispatch(toggleWaiting());  
             fetch(`${host}/aac/Devs/`, options)
                 .then(checkForErrors)
                 .then(response => response.json())
                 .then(data => {
                     if (data.ok) {
-                        device.id = data.id;
-                        device.name = data.name;
-                        dispatch(completeDevice(device));
+                        devs.id = data.id;
+                        devs.name = data.name;
+                        dispatch(completeDevice(devs));
                     }
                 })
                 .catch(e => console.error(e));

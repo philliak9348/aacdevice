@@ -39,11 +39,11 @@ function App() {
   }, [dispatch]);
 
 
-  const addBoxes = () => {
-    dispatch(addBox());
+  const addBoxes = (id, text, image) => {
+    dispatch(addBox(id, text, image));
   };
-  const addDevices = () => {
-    dispatch(addDevice());
+  const addDevices = (id, name) => {
+    dispatch(addDevice(id, name));
   };
   const runPullDev = () => {
     dispatch(pullDevices());
@@ -54,6 +54,7 @@ function App() {
 
   return (
     <div className="app-root" id="appRoot">
+      <div className="appTitle">AACCREATOR: Create and AAC Device</div>
       {isWaiting && <div className="progress"><div className="insideBar"></div></div>}
       <div className="header">
         <button type="button" id="search" className="headerButtons" onClick={() => {
@@ -99,7 +100,7 @@ function App() {
             const i = -1;
             updateVisual(newVisual.filter((newVisual) => newVisual.id === i));
             currid += 1;
-            addDevices(addDevice(currid, inputTitle));
+            addDevices(currid, inputTitle);
             runPullDev(pullDevices());
           } else {
             document.getElementById('title').placeholder = 'Enter name before you save!';
@@ -113,7 +114,7 @@ function App() {
       <div className="device">
         <div id="addBox" className="hidden">
           <input id="inputText" type="text" placeholder="Card Text"></input>
-          <label id = "uploadButton" for="upload">Upload Image</label>
+          <label id = "uploadButton" htmlFor="upload">Upload Image</label>
           <input type="file" accept="image/jpeg ,image/png" name="uploadImage" id="upload"></input>
           <button type="button" id="submit" onClick={() => {
               let bool = 0;
@@ -132,7 +133,7 @@ function App() {
               }}}>Add Box</button>
         </div>
         <br />
-        {boxes.map((box) => <Box key={box.id} text={box.text} image={box.image} />)}
+        {newVisual.map((box) => <Box key={box.id} text={box.text} image={box.image} />)}
       </div>
       <div className="hidden" id="popup">
         <div>Click on an AAC Device to open.</div>
